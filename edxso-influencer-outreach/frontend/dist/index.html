@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDXSO Influencer Outreach — Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/assets/index-BVX0ODo1.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-faZ4gA-N.css">
+</head>
+<body>
+  <!-- Toast Alert Notifications -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Header / Navigation Bar -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-badge">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-info">
+          <span class="brand-title">EDXSO</span>
+          <span class="brand-subtitle">Influencer Outreach OS</span>
+        </div>
+      </div>
+      <div id="backend-status-badge" class="status-pill status-checking">
+        <span class="pulse-dot"></span>
+        <span id="backend-status-text">Connecting to API...</span>
+      </div>
+    </div>
+
+    <!-- Quick Pipeline Controls -->
+    <div class="header-right">
+      <div class="export-dropdown-wrapper">
+        <button id="export-dropdown-btn" class="btn btn-secondary">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export CSV
+        </button>
+        <div id="export-dropdown-menu" class="dropdown-menu hidden">
+          <a href="#" id="export-influencers-btn" class="dropdown-item">👥 Influencers CSV</a>
+          <a href="#" id="export-drafts-btn" class="dropdown-item">✉️ Outreach Drafts CSV</a>
+          <a href="#" id="export-logs-btn" class="dropdown-item">📜 Delivery Logs CSV</a>
+        </div>
+      </div>
+
+      <button id="open-discovery-modal-btn" class="btn btn-primary glow-button">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        Discover YouTube Creators
+      </button>
+    </div>
+  </header>
+
+  <!-- Main App Container -->
+  <main class="app-main">
+    <!-- Top Statistics Dashboard -->
+    <section class="stats-grid" id="stats-summary-grid">
+      <div class="stat-card" id="stat-total-card">
+        <div class="stat-header">
+          <span class="stat-label">Total Ingested</span>
+          <span class="stat-icon-wrap bg-blue">👥</span>
+        </div>
+        <div class="stat-value" id="stat-total-val">0</div>
+        <div class="stat-meta">Creator channels in database</div>
+      </div>
+
+      <div class="stat-card" id="stat-qualified-card">
+        <div class="stat-header">
+          <span class="stat-label">Qualified Creators</span>
+          <span class="stat-icon-wrap bg-green">✨</span>
+        </div>
+        <div class="stat-value" id="stat-qualified-val">0</div>
+        <div class="stat-meta" id="stat-qualified-pct">0% conversion rate</div>
+      </div>
+
+      <div class="stat-card" id="stat-drafts-card">
+        <div class="stat-header">
+          <span class="stat-label">Outreach Drafts</span>
+          <span class="stat-icon-wrap bg-purple">✉️</span>
+        </div>
+        <div class="stat-value" id="stat-drafts-val">0</div>
+        <div class="stat-meta" id="stat-drafts-meta">Email & Instagram DMs</div>
+      </div>
+
+      <div class="stat-card" id="stat-sent-card">
+        <div class="stat-header">
+          <span class="stat-label">Simulated Sends</span>
+          <span class="stat-icon-wrap bg-emerald">🚀</span>
+        </div>
+        <div class="stat-value" id="stat-sent-val">0</div>
+        <div class="stat-meta" id="stat-sent-meta">Logged to delivery audit</div>
+      </div>
+    </section>
+
+    <!-- Pipeline Control Banner -->
+    <section class="pipeline-card">
+      <div class="pipeline-header">
+        <div class="pipeline-title-group">
+          <h2>Outreach Automation Pipeline</h2>
+          <p>Execute automated discovery, metadata enrichment, criteria qualification, copy generation, and simulated dispatch.</p>
+        </div>
+        <div class="pipeline-badge">5-Stage AI Workflow</div>
+      </div>
+
+      <div class="pipeline-steps-grid">
+        <!-- Step 1: Discover -->
+        <div class="pipeline-step">
+          <div class="step-badge">Stage 1</div>
+          <div class="step-content">
+            <h4>Discover Creators</h4>
+            <p>Query YouTube Data API for fitness & wellness channels.</p>
+          </div>
+          <button id="pipeline-discover-btn" class="btn btn-outline-primary btn-sm">
+            Launch Discovery
+          </button>
+        </div>
+
+        <!-- Step 2: Enrich -->
+        <div class="pipeline-step">
+          <div class="step-badge">Stage 2</div>
+          <div class="step-content">
+            <h4>Enrich Metadata</h4>
+            <p>Extract public emails, social links & content themes.</p>
+          </div>
+          <button id="pipeline-enrich-btn" class="btn btn-outline-cyan btn-sm">
+            Enrich Channels
+          </button>
+        </div>
+
+        <!-- Step 3: Qualify -->
+        <div class="pipeline-step">
+          <div class="step-badge">Stage 3</div>
+          <div class="step-content">
+            <h4>Qualify Influencers</h4>
+            <p>Evaluate 1K–100K subs, >=2% engagement & recent videos.</p>
+          </div>
+          <button id="pipeline-qualify-btn" class="btn btn-outline-amber btn-sm">
+            Run Qualification
+          </button>
+        </div>
+
+        <!-- Step 4: Generate -->
+        <div class="pipeline-step">
+          <div class="step-badge">Stage 4</div>
+          <div class="step-content">
+            <h4>Generate Drafts</h4>
+            <p>Create personalized 60-90w Emails & 15-30w DMs.</p>
+          </div>
+          <button id="pipeline-generate-btn" class="btn btn-outline-purple btn-sm">
+            Generate Copies
+          </button>
+        </div>
+
+        <!-- Step 5: Send -->
+        <div class="pipeline-step">
+          <div class="step-badge">Stage 5</div>
+          <div class="step-content">
+            <h4>Simulate Sends</h4>
+            <p>Batch dispatch pending messages into audit logs.</p>
+          </div>
+          <button id="pipeline-send-btn" class="btn btn-outline-emerald btn-sm">
+            Send All Pending
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="app-tabs-nav" aria-label="Main Navigation">
+      <button class="tab-btn active" data-tab="influencers-tab" id="tab-btn-influencers">
+        <span class="tab-icon">👥</span>
+        Influencer Directory
+        <span class="tab-count-badge" id="tab-influencers-count">0</span>
+      </button>
+
+      <button class="tab-btn" data-tab="outreach-tab" id="tab-btn-outreach">
+        <span class="tab-icon">✉️</span>
+        Outreach Studio
+        <span class="tab-count-badge" id="tab-outreach-count">0</span>
+      </button>
+
+      <button class="tab-btn" data-tab="logs-tab" id="tab-btn-logs">
+        <span class="tab-icon">📜</span>
+        Delivery Logs
+        <span class="tab-count-badge" id="tab-logs-count">0</span>
+      </button>
+
+      <button class="tab-btn" data-tab="add-tab" id="tab-btn-add">
+        <span class="tab-icon">➕</span>
+        Add Influencer
+      </button>
+    </nav>
+
+    <!-- TAB 1: Influencers Directory -->
+    <section id="influencers-tab" class="tab-pane active">
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="search-input-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="influencer-search-input" placeholder="Search by name, category, or themes..." />
+        </div>
+
+        <div class="filter-pills-group" id="influencer-status-filters">
+          <button class="filter-pill active" data-filter="all">All</button>
+          <button class="filter-pill" data-filter="Qualified">Qualified</button>
+          <button class="filter-pill" data-filter="Pending">Pending</button>
+          <button class="filter-pill" data-filter="Rejected">Rejected</button>
+        </div>
+
+        <div class="view-switch-group">
+          <button id="view-mode-grid" class="view-btn active" title="Grid View">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </button>
+          <button id="view-mode-table" class="view-btn" title="Table View">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Influencer Cards Grid -->
+      <div id="influencer-cards-grid" class="influencer-cards-grid">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading creator profiles...</p>
+        </div>
+      </div>
+
+      <!-- Influencer Table View (hidden by default) -->
+      <div id="influencer-table-container" class="table-container hidden">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Creator</th>
+              <th>Followers</th>
+              <th>Engagement</th>
+              <th>Category</th>
+              <th>Contact Email</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="influencer-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 2: Outreach Studio -->
+    <section id="outreach-tab" class="tab-pane hidden">
+      <div class="filter-bar">
+        <div class="filter-pills-group" id="outreach-channel-filters">
+          <button class="filter-pill active" data-channel="all">All Channels</button>
+          <button class="filter-pill" data-channel="Email">Email (60–90w)</button>
+          <button class="filter-pill" data-channel="Instagram DM">Instagram DM (15–30w)</button>
+        </div>
+
+        <div class="filter-pills-group" id="outreach-status-filters">
+          <button class="filter-pill active" data-status="all">All Statuses</button>
+          <button class="filter-pill" data-status="Draft">Draft</button>
+          <button class="filter-pill" data-status="Sent">Sent</button>
+        </div>
+
+        <button id="send-pending-studio-btn" class="btn btn-emerald btn-sm">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send All Pending
+        </button>
+      </div>
+
+      <div id="outreach-cards-grid" class="outreach-cards-grid">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading outreach drafts...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Delivery Logs -->
+    <section id="logs-tab" class="tab-pane hidden">
+      <div class="logs-header-bar">
+        <div>
+          <h3>Simulated Message Delivery Audit</h3>
+          <p class="subtitle">Complete audit logs of simulated deliveries and preventions.</p>
+        </div>
+        <button id="refresh-logs-btn" class="btn btn-secondary btn-sm">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          Refresh Logs
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Log ID</th>
+              <th>Message ID</th>
+              <th>Event</th>
+              <th>Status</th>
+              <th>Details</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody id="logs-table-body">
+            <tr><td colspan="6" class="text-center py-4">No delivery logs recorded yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 4: Add Influencer Manual Form -->
+    <section id="add-tab" class="tab-pane hidden">
+      <div class="form-card-container">
+        <div class="form-card-header">
+          <h3>Register New Influencer Profile</h3>
+          <p>Manually introduce a creator profile into the EDXSO qualification & outreach pipeline.</p>
+        </div>
+
+        <form id="add-influencer-form" class="creator-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="form-name">Creator / Channel Name *</label>
+              <input type="text" id="form-name" required placeholder="e.g. Iron Fitness by Marcus" />
+            </div>
+
+            <div class="form-group">
+              <label for="form-platform">Platform *</label>
+              <select id="form-platform" required>
+                <option value="YouTube" selected>YouTube</option>
+                <option value="Instagram">Instagram</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="form-profile-url">Profile URL *</label>
+              <input type="url" id="form-profile-url" required placeholder="https://www.youtube.com/channel/UC..." />
+            </div>
+
+            <div class="form-group">
+              <label for="form-source-url">Source / Channel URL</label>
+              <input type="url" id="form-source-url" placeholder="https://www.youtube.com/channel/UC..." />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="form-followers">Follower / Subscriber Count</label>
+              <input type="number" id="form-followers" min="0" placeholder="e.g. 35000" />
+            </div>
+
+            <div class="form-group">
+              <label for="form-engagement">Engagement Rate (%)</label>
+              <input type="number" id="form-engagement" step="0.1" min="0" max="100" placeholder="e.g. 3.4" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="form-category">Category / Niche</label>
+              <input type="text" id="form-category" placeholder="e.g. Fitness & Bodybuilding" />
+            </div>
+
+            <div class="form-group">
+              <label for="form-geography">Geography / Country</label>
+              <input type="text" id="form-geography" placeholder="e.g. United States" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="form-email">Contact Email</label>
+              <input type="email" id="form-email" placeholder="creator@example.com" />
+            </div>
+
+            <div class="form-group">
+              <label for="form-website">Website / Linktree</label>
+              <input type="url" id="form-website" placeholder="https://creator.com" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="form-themes">Content Themes & Keywords</label>
+            <input type="text" id="form-themes" placeholder="e.g. Workout and Training, Nutrition and Diet" />
+          </div>
+
+          <div class="form-actions">
+            <button type="reset" class="btn btn-secondary">Reset Form</button>
+            <button type="submit" id="submit-influencer-btn" class="btn btn-primary glow-button">
+              Create Influencer Profile
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- YouTube Discovery Modal -->
+  <div id="discovery-modal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Discover YouTube Creators</h3>
+        <button id="close-discovery-modal-btn" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>This triggers the YouTube Data API v3 integration to ingest fitness creator profiles, calculate metrics, and avoid duplicates.</p>
+        
+        <div class="form-group mt-4">
+          <label for="discovery-target-input">Target Channels to Ingest (1 – 100):</label>
+          <input type="number" id="discovery-target-input" value="10" min="1" max="100" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cancel-discovery-btn" class="btn btn-secondary">Cancel</button>
+        <button id="execute-discovery-btn" class="btn btn-primary glow-button">
+          Start Ingestion Batch
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Influencer Details Modal -->
+  <div id="details-modal" class="modal-backdrop hidden">
+    <div class="modal-card modal-lg">
+      <div class="modal-header">
+        <h3 id="details-modal-name">Creator Profile</h3>
+        <button id="close-details-modal-btn" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="details-modal-body">
+        <!-- Rendered via app.js -->
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

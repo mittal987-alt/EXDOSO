@@ -329,30 +329,23 @@ Outreach messages adhere to strict formatting and length constraints to maximize
 
 ```
 backend/
-├── app/
-│   ├── api/                     # API routers and endpoints
-│   ├── models/                  # SQLAlchemy ORM database models
-│   │   ├── influencer.py        # Influencer table definition
-│   │   ├── outreach_message.py  # Outreach drafts table definition
-│   │   └── delivery_log.py      # Delivery audit trail model
-│   ├── providers/               # External service integrations
-│   │   └── youtube_provider.py  # YouTube Data API v3 provider
-│   ├── schemas/                 # Pydantic validation schemas
-│   │   └── influencer.py        # Request & Response schemas
-│   ├── services/                # Core domain business logic
-│   │   ├── enrichment_service.py    # Metadata & theme extraction
-│   │   ├── qualification_service.py # Eligibility criteria evaluation
-│   │   ├── outreach_service.py      # 60-90w Email & 15-30w DM copy generator
-│   │   ├── sending_service.py       # Simulated sending & audit logger
-│   │   ├── export_service.py        # CSV export generator
-│   │   └── schema_update.py         # Dynamic SQLite migration utilities
-│   ├── database.py              # Engine and SessionLocal setup
-│   └── main.py                  # FastAPI application setup and routes
-├── data/                        # Static seeds or exported artifacts
+├── app/                         # FastAPI application, models, services & routes
+│   ├── models/                  # SQLAlchemy ORM models (Influencer, OutreachMessage, DeliveryLog)
+│   ├── providers/               # YouTube Data API v3 provider
+│   ├── schemas/                 # Pydantic schemas
+│   └── services/                # Discovery, enrichment, qualification, outreach & export services
+├── tests/                       # Automated pytest suite (100% endpoint coverage)
+│   ├── conftest.py              # In-memory SQLite fixtures and test client
+│   └── test_api.py              # End-to-end API integration tests
 ├── .env                         # Environment configuration
-├── .gitignore                   # Ignored files (venv, db, caches)
-├── influencer_outreach.db       # SQLite local database
-└── requirements.txt             # Project Python dependencies
+└── requirements.txt             # Python dependencies
+
+frontend/
+├── index.html                   # Command Center UI layout
+├── index.css                    # Glassmorphism dark design system
+├── app.js                       # Real-time state management and API integration
+├── vite.config.js               # Vite dev server configuration
+└── package.json                 # Frontend scripts and dependencies
 ```
 
 ---

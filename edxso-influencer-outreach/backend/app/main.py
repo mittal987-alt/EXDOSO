@@ -1,9 +1,10 @@
 from contextlib import asynccontextmanager
-from app.services.enrichment_service import enrich_influencer
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from fastapi.responses import Response
+from app.services.enrichment_service import enrich_influencer
 
 from app.services.export_service import (
     export_influencers,
@@ -67,6 +68,14 @@ app = FastAPI(
     ),
     version="0.1.0",
     lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 

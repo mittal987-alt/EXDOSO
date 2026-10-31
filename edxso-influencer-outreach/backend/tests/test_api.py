@@ -123,6 +123,18 @@ def test_discovery_youtube(mock_provider_class, client):
 def test_enrich_influencers(mock_provider_class, client, sample_pending_influencer):
     """Test enriching stored influencers with public metadata."""
     mock_instance = mock_provider_class.return_value
+    mock_instance.get_channels = AsyncMock(
+        return_value=[
+            {
+                "channel_id": "UC_SAM_WELLNESS_02",
+                "title": "Sam Wellness",
+                "description": "Yoga and wellness channel for healthy living. Contact: sam@example.com",
+                "subscriber_count": 50000,
+                "video_count": 120,
+                "view_count": 1500000,
+            }
+        ]
+    )
 
     response = client.post("/api/influencers/enrich")
     assert response.status_code == 200
@@ -174,7 +186,7 @@ def test_outreach_generation_and_word_count_constraints(client, sample_qualified
     dm_draft = next(d for d in drafts_data["drafts"] if d["channel"] == "Instagram DM")
 
     # Verify Email constraints
-    assert email_draft["subject"] == "Potential creator collaboration"
+    assert email_draft["subject"] == "Potential Creator Collaboration"
     assert 60 <= email_draft["word_count"] <= 90
     assert "Alex Trainer" in email_draft["message"]
 
@@ -219,7 +231,7 @@ def test_outreach_send_simulation_and_delivery_logs(client, sample_qualified_inf
     batch_res = client.post("/api/outreach/send-pending")
     assert batch_res.status_code == 200
     batch_data = batch_res.json()
-    assert batch_data["processed"] == 1
+    assert batch_data["total_processed"] == 1
     assert batch_data["sent"] == 1
 
     # Check delivery audit logs
@@ -227,7 +239,7 @@ def test_outreach_send_simulation_and_delivery_logs(client, sample_qualified_inf
     assert logs_res.status_code == 200
     logs = logs_res.json()["logs"]
     assert len(logs) >= 2
-    assert all(log["status"] == "sent" for log in logs)
+    assert all(log["status"] == "Sent" for log in logs)
 
 
 def test_csv_exports(client, sample_qualified_influencer):
